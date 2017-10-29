@@ -1,0 +1,34 @@
+{
+  "name": "@bayatgames/savegamepro-mongodb",
+  "version": "1.0.0",
+  "description": "Save Game Pro Cloud, MongoDB Database Support.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BayatGames/node-savegamepro-mongodb.git"
+  },
+  "keywords": [
+    "bayat",
+    "bayatgames",
+    "savegame",
+    "savegamepro",
+    "savegame-cloud",
+    "unity",
+    "unity3d"
+  ],
+  "author": "Hasan Bayat <hasanbayat1393@gmail.com> (https://hasanbayat.me)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BayatGames/node-savegamepro-mongodb/issues"
+  },
+  "homepage": "https://github.com/BayatGames/node-savegamepro-mongodb#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33"
+  },
+  "devDependencies": {}
+}
