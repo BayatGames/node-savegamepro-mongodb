@@ -45,7 +45,7 @@ Now run the script from the command line:
 node app.js
 ```
 
-You can find the full working example in the app.js file.
+You can find the full working example in the [app.js](https://github.com/BayatGames/node-savegamepro-mongodb/blob/master/app.js) file.
 
 ### Clone
 
@@ -69,7 +69,7 @@ node app.js
 
 ### Download
 
-[Download the ZIP](https://github.com/BayatGames/node-savegamepro-mongodb.git) file and extract it and Open the folder then run the below command:
+[Download the ZIP](https://github.com/BayatGames/node-savegamepro-mongodb/archive/master.zip) file and extract it and Open the folder then run the below command:
 
 ```bash
 node app.js
