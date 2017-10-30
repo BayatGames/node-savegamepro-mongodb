@@ -147,42 +147,27 @@ module.exports.createUser = function (request, response, db, cb) {
  * @param  {IncomingMessage}   request  The incoming request
  * @param  {ServerResponse}    response The response
  * @param  {Db}                db       The database instance
- * @param  {Object}            users    The user
+ * @param  {Object}            user     The user
  * @param  {Function}          cb       The callback
  * @return {void}                       Returns nothing
  */
 module.exports.save = function (request, response, db, user, cb) {
   let saves = db.collection('saves');
-  saves.findOne({
+  saves.updateOne({
     user_id: user._id,
     data_key: request.body['data-key']
+  }, {
+    $set: {
+      data_value: request.body['data-value']
+    }
+  }, {
+    'upsert': true
   }, (err, doc) => {
     if (err) throw err;
-    if (!doc) {
-      saves.insertOne({
-        user_id: user._id,
-        data_key: request.body['data-key'],
-        data_value: request.body['data-value']
-      }, (err, doc) => {
-        if (err) throw err;
-        response.writeHead(200, 'OK');
-        response.end('Data Saved Successfully');
-        if (cb) {
-          cb(request, response, db, user);
-        }
-      });
-    } else {
-      saves.updateOne({
-        user_id: user._id,
-        data_key: request.body['data-key']
-      }, { $set: { data_value: request.body['data-value'] } }, (err, doc) => {
-        if (err) throw err;
-        response.writeHead(200, 'OK');
-        response.end('Data Saved Successfully');
-        if (cb) {
-          cb(request, response, db, user);
-        }
-      });
+    response.writeHead(200, 'OK');
+    response.end('Data Saved Successfully');
+    if (cb) {
+      cb(request, response, db, user);
     }
   });
 };
@@ -192,7 +177,7 @@ module.exports.save = function (request, response, db, user, cb) {
  * @param  {IncomingMessage}   request  The incoming request
  * @param  {ServerResponse}    response The response
  * @param  {Db}                db       The database instance
- * @param  {Object}            users    The user
+ * @param  {Object}            user     The user
  * @param  {Function}          cb       The callback
  * @return {void}                       Returns nothing
  */
@@ -221,7 +206,7 @@ module.exports.load = function (request, response, db, user, cb) {
  * @param  {IncomingMessage}   request  The incoming request
  * @param  {ServerResponse}    response The response
  * @param  {Db}                db       The database instance
- * @param  {Object}            users    The user
+ * @param  {Object}            user     The user
  * @param  {Function}          cb       The callback
  * @return {void}                       Returns nothing
  */
@@ -245,7 +230,7 @@ module.exports.delete = function (request, response, db, user, cb) {
  * @param  {IncomingMessage}   request  The incoming request
  * @param  {ServerResponse}    response The response
  * @param  {Db}                db       The database instance
- * @param  {Object}            users    The user
+ * @param  {Object}            user     The user
  * @param  {Function}          cb       The callback
  * @return {void}                       Returns nothing
  */
@@ -268,7 +253,7 @@ module.exports.clear = function (request, response, db, user, cb) {
  * @param  {IncomingMessage}   request  The incoming request
  * @param  {ServerResponse}    response The response
  * @param  {Db}                db       The database instance
- * @param  {Object}            users    The user
+ * @param  {Object}            user     The user
  * @param  {Function}          cb       The callback
  * @return {void}                       Returns nothing
  */

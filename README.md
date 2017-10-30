@@ -4,7 +4,7 @@ Save Game Pro Cloud, Node.js MongoDB Database Support.
 
 ## Installation
 
-You can install the Save Game Pro Cloud - Node.js MongoDB support via many ways:
+You can install the Save Game Pro Cloud - Node.js MongoDB support via below ways:
 
 - [NPM](#npm) (Recommended)
 - [Clone](#clone)
@@ -15,7 +15,7 @@ You can install the Save Game Pro Cloud - Node.js MongoDB support via many ways:
 Install it via [NPM](https://npmjs.com) (Node Package Manager):
 
 ```
-npm install node-savegamepro-mongodb --save
+npm install savegamepro-mongodb --save
 ```
 
 And then include it in your server script: (Express Recommended)
