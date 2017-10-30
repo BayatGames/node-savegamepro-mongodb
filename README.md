@@ -10,6 +10,10 @@ You can install the Save Game Pro Cloud - Node.js MongoDB support via below ways
 - [Clone](#clone)
 - [Download](#download)
 
+Also, we can install it for you:
+
+- [Automatic Installation](#automatic-installation)
+
 ### NPM
 
 Install it via [NPM](https://npmjs.com) (Node Package Manager):
@@ -84,6 +88,14 @@ The URL for this example should be `http://localhost:3000/savegamepro` if you ar
 Now fill the required fields in the Unity, for example make sure the Secret Key is same in both server and Unity.
 
 Play the game and make a simple request and make sure the request is successful, also, check the database for the saved data and user.
+
+## Automatic Installation
+
+Don't want to install manually, contact us and we will be happy to install it for you:
+
+[Support](https://github.com/BayatGames/Support)
+
+It is a paid service and the operator will report back to you the price.
 
 ## Resources
 
