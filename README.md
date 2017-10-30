@@ -23,7 +23,7 @@ And then include it in your server script: (Express Recommended)
 ```javascript
 const express = require('express');
 const bodyParser = require('body-parser');
-const saveGamePro = require('savegamepro-mongodb');
+const saveGamePro = require('@bayatgames/savegamepro-mongodb');
 const app = express();
 
 saveGamePro.config.secretKey = 'MyCustomSecretKey';
