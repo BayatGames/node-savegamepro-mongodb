@@ -180,7 +180,7 @@ module.exports.ensureUploadFolder = function (request, response, db, cb) {
    module.exports.ensureUploadFolder(request, response, db, (err) => {
      if (err) throw err;
      let url = request.protocol + '://' + request.get('host') + request.originalUrl;
-     url += path.resolve(module.exports.config.uploadFolder, fileName).replace(process.cwd(), '').replace(/[\\]/g, '/');
+     url += path.resolve(module.exports.config.uploadFolder, request.body.username, fileName).replace(process.cwd(), '').replace(/[\\]/g, '/');
      response.writeHead(200, 'OK');
      response.end(url);
      if (cb) {
@@ -200,7 +200,7 @@ module.exports.ensureUploadFolder = function (request, response, db, cb) {
  */
 module.exports.uploadFile = function (request, response, db, user, cb) {
   let fileName = request.body['file-name'] ? request.body['file-name'] : request.body['data-key'];
-  let filePath = path.resolve(module.exports.config.uploadFolder, fileName);
+  let filePath = path.resolve(module.exports.config.uploadFolder, request.body.username, fileName);
   module.exports.ensureUploadFolder(request, response, db, (err) => {
     if (err) throw err;
     fs.move(request.file.path, filePath, { overwrite: true }, (err) => {
@@ -225,7 +225,7 @@ module.exports.uploadFile = function (request, response, db, user, cb) {
  */
 module.exports.downloadFile = function (request, response, db, user, cb) {
   let fileName = request.body['file-name'] || request.body['data-key'];
-  let filePath = path.resolve(module.exports.config.uploadFolder, fileName);
+  let filePath = path.resolve(module.exports.config.uploadFolder, request.body.username, fileName);
   module.exports.ensureUploadFolder(request, response, db, (err) => {
     if (err) throw err;
     response.download(filePath);
