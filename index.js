@@ -7,6 +7,8 @@
  */
 
 const MongoClient = require('mongodb').MongoClient;
+const fs = require('fs-extra');
+const path = require('path');
 
 /**
  * Express Middleware
@@ -33,6 +35,15 @@ module.exports = function (request, response, next) {
   }
   let action = module.exports.invalidAction;
   switch (request.body.action) {
+    case 'getfileurl':
+      action = module.exports.getFileUrl;
+      break;
+    case 'uploadfile':
+      action = module.exports.uploadFile;
+      break;
+    case 'downloadfile':
+      action = module.exports.downloadFile;
+      break;
     case 'save':
       action = module.exports.save;
       break;
@@ -65,6 +76,7 @@ module.exports = function (request, response, next) {
  */
 module.exports.config = {
   secretKey: '',
+  uploadFolder: './uploads/',
   database: {
     url: 'mongodb://localhost:27017/savegamepro'
   }
@@ -138,6 +150,87 @@ module.exports.createUser = function (request, response, db, cb) {
     if (err) throw err;
     if (cb) {
       cb(doc);
+    }
+  });
+};
+
+/**
+ * Creates the upload folder if not exists.
+ * @param  {IncomingMessage}   request  The incoming request
+ * @param  {ServerResponse}    response The response
+ * @param  {Db}                db       The database instance
+ * @param  {Function}          cb       The callback
+ * @return {void}                       Returns nothing
+ */
+module.exports.ensureUploadFolder = function (request, response, db, cb) {
+  fs.ensureDir(module.exports.config.uploadFolder, cb);
+};
+
+/**
+ * Gets file url for the given file.
+ * @param  {IncomingMessage}   request  The incoming request
+ * @param  {ServerResponse}    response The response
+ * @param  {Db}                db       The database instance
+ * @param  {Object}            user     The user
+ * @param  {Function}          cb       The callback
+ * @return {void}                       Returns nothing
+ */
+ module.exports.getFileUrl = function (request, response, db, user, cb) {
+   let fileName = request.body['file-name'] || request.body['data-key'];
+   module.exports.ensureUploadFolder(request, response, db, (err) => {
+     if (err) throw err;
+     let url = request.protocol + '://' + request.get('host') + request.originalUrl;
+     url += path.resolve(module.exports.config.uploadFolder, fileName).replace(process.cwd(), '').replace(/[\\]/g, '/');
+     response.writeHead(200, 'OK');
+     response.end(url);
+     if (cb) {
+       cb(request, response, db, user);
+     }
+   });
+ };
+
+/**
+ * Uploads the file to the upload folder.
+ * @param  {IncomingMessage}   request  The incoming request
+ * @param  {ServerResponse}    response The response
+ * @param  {Db}                db       The database instance
+ * @param  {Object}            user     The user
+ * @param  {Function}          cb       The callback
+ * @return {void}                       Returns nothing
+ */
+module.exports.uploadFile = function (request, response, db, user, cb) {
+  let fileName = request.body['file-name'] ? request.body['file-name'] : request.body['data-key'];
+  let filePath = path.resolve(module.exports.config.uploadFolder, fileName);
+  module.exports.ensureUploadFolder(request, response, db, (err) => {
+    if (err) throw err;
+    fs.move(request.file.path, filePath, { overwrite: true }, (err) => {
+      if (err) throw err;
+      response.writeHead(200, 'OK');
+      response.end("File Uploaded Successfully");
+      if (cb) {
+        cb(request, response, db, user);
+      }
+    });
+  });
+};
+
+/**
+ * Downloads the file from upload folder.
+ * @param  {IncomingMessage}   request  The incoming request
+ * @param  {ServerResponse}    response The response
+ * @param  {Db}                db       The database instance
+ * @param  {Object}            user     The user
+ * @param  {Function}          cb       The callback
+ * @return {void}                       Returns nothing
+ */
+module.exports.downloadFile = function (request, response, db, user, cb) {
+  let fileName = request.body['file-name'] || request.body['data-key'];
+  let filePath = path.resolve(module.exports.config.uploadFolder, fileName);
+  module.exports.ensureUploadFolder(request, response, db, (err) => {
+    if (err) throw err;
+    response.download(filePath);
+    if (cb) {
+      cb(request, response, db, user);
     }
   });
 };
