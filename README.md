@@ -19,7 +19,7 @@ Also, we can install it for you:
 Install it via [NPM](https://npmjs.com) (Node Package Manager):
 
 ```
-npm install savegamepro-mongodb --save
+npm install @bayatgames/savegamepro-mongodb --save
 ```
 
 And then include it in your server script: (Express Recommended)
