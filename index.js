@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Save Game Pro Cloud Node.js MongoDB Database Support.
  *
