@@ -1,6 +1,6 @@
 {
   "name": "@bayatgames/savegamepro-mongodb",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Save Game Pro Cloud, MongoDB Database Support.",
   "main": "index.js",
   "scripts": {
